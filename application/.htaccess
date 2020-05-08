@@ -1,0 +1,26 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond % {REQUEST_FILENAME} !-f
+RewriteCond % {REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /compras/index.php?url=$1
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    #Remove o acesso a pasta system
+    RewriteCond %{REQUEST_URI} ^system.*
+
+    #Redireciona /index.php/nomedocontroller/ to /nomedocontroller/função/
+    RewriteRule ^(.*)$ compras/index/index.php/$1 [L]
+
+    #se o arquivo não existir (um css ou javascript por exemplo)
+    #ele redireciona para  o index.php
+    RewriteCond % {REQUEST_FILENAME} !-f
+    RewriteCond % {REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ compras/index/index.php/$1 [L]
+
+    #caso o mod_rewrite não esteja habilitado ele redireciona todo erro 404
+    #para o index.php ainda funcionando
+    ErrorDocument 404 /index.php
+</IfModule>
